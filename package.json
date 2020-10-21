@@ -4,7 +4,11 @@
   "description": "TypeScript type generator for Tailwind utility classes and `clsx`",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "run-s -cns lint:*",
+    "lint:format": "prettier --check .",
+    "lint:ts": "tsc --noEmit",
+    "lint:es": "eslint ."
   },
   "engines": {
     "node": "^14.14.0",
