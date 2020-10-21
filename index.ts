@@ -1,5 +1,4 @@
-console.log("Hello, world!");
-
+import { EOL } from "os";
 import postcss, { Root, Transformer } from "postcss";
 import createSelectorParser from "postcss-selector-parser";
 import tailwindcss from "tailwindcss";
@@ -26,4 +25,17 @@ async function extractClasses(): Promise<Set<string>> {
   return classes;
 }
 
-extractClasses().then(console.log, console.error);
+function generateUtilityClassesType(classes: Iterable<string>): string {
+  const lines = ["type TailwindUtilityClasses ="];
+
+  for (const cls of classes) {
+    lines.push(`  | "${cls}"`);
+  }
+
+  return lines.join(EOL);
+}
+
+extractClasses()
+  .then((classes) => generateUtilityClassesType(classes))
+  .then(console.log)
+  .catch(console.error);
