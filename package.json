@@ -6,6 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+    "node": "^14.14.0",
+    "npm": "^6.14.8"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jarrodldavis/tailwindcss-clsx.git"
@@ -13,9 +17,14 @@
   "keywords": [
     "typescript",
     "types",
+    "generator",
+    "code-generator",
+    "codegen",
     "tailwind",
     "tailwindcss",
-    "generator"
+    "css",
+    "functional-css",
+    "utility-css"
   ],
   "author": "Jarrod Davis <developer@jarrodldavis.com>",
   "license": "MIT",
