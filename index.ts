@@ -26,11 +26,24 @@ async function extractClasses(): Promise<Set<string>> {
 }
 
 function generateUtilityClassesType(classes: Iterable<string>): string {
-  const lines = ["type TailwindUtilityClasses ="];
+  const lines = [
+    'import clsx from "clsx";',
+    "",
+    "type ClassValue<T extends string> = ClassArray<T> | ClassDictionary<T> | T | null | boolean | undefined;",
+    "type ClassDictionary<T extends string> = { [P in T]: null | boolean | undefined };",
+    "type ClassArray<T extends string> = Array<ClassValue<T>>;",
+    "",
+    "const tw = (...classes: ClassValue<TailwindUtilityClasses>[]): string => clsx(classes) as string;",
+    "export default tw;",
+    "",
+    "type TailwindUtilityClasses =",
+  ];
 
   for (const cls of classes) {
     lines.push(`  | "${cls}"`);
   }
+
+  lines[lines.length - 1] += ";";
 
   return lines.join(EOL);
 }
