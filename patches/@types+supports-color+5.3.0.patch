@@ -1,0 +1,13 @@
+diff --git a/node_modules/@types/supports-color/index.d.ts b/node_modules/@types/supports-color/index.d.ts
+index 8b2c0c0..01d9fcf 100644
+--- a/node_modules/@types/supports-color/index.d.ts
++++ b/node_modules/@types/supports-color/index.d.ts
+@@ -11,7 +11,7 @@ export namespace supportsColor {
+         has16m: boolean;
+     }
+ 
+-    type SupportsColor = boolean & Level;
++    type SupportsColor = boolean | Level;
+ }
+ 
+ export const stdout: supportsColor.SupportsColor;
