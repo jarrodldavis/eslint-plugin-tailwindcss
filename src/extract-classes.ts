@@ -2,6 +2,8 @@ import postcss, { Root, Transformer } from "postcss";
 import createSelectorParser from "postcss-selector-parser";
 import tailwindcss from "tailwindcss";
 
+import { expose } from "./comlink";
+
 interface ExtractArgs {
   inputStyleSheet: string;
   inputStyleSheetPath: string | undefined;
@@ -29,3 +31,5 @@ export default async function extractClasses(args: ExtractArgs): Promise<Iterabl
 
   return classes;
 }
+
+expose(extractClasses);

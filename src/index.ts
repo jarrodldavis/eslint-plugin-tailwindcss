@@ -1,21 +1,44 @@
 #!/usr/bin/env node
 
-import { promises as fs } from "fs";
+import "./color";
+
+import ora, { Ora } from "ora";
 
 import run, { Options } from "./cli";
-import getInputStyleSheet from "./get-style-sheet";
-import extractClasses from "./extract-classes";
-import generateTypeScriptSource from "./generate-typescript";
+import { wrap } from "./comlink";
+import readInput from "./input";
+import writeOutput from "./output";
 
 async function entrypoint({ styleSheetPath, configPath, outputPath }: Options = {}): Promise<void> {
-  const [inputStyleSheet, inputStyleSheetPath] = await getInputStyleSheet(styleSheetPath);
-  const classes = await extractClasses({ inputStyleSheetPath, inputStyleSheet, configPath });
-  const typescriptSource = generateTypeScriptSource(classes);
+  outputPath = outputPath === "-" ? undefined : outputPath;
 
-  if (outputPath) {
-    await fs.writeFile(outputPath, typescriptSource, "utf-8");
-  } else {
-    process.stdout.write(typescriptSource);
+  let spinner: Ora | undefined;
+  try {
+    spinner = ora().start("Read input stylesheet");
+    const [inputStyleSheet, inputStyleSheetPath] = await readInput(styleSheetPath);
+    spinner.succeed();
+
+    spinner = ora().start("Extract CSS classes");
+    const extractClasses = wrap<typeof import("./extract-classes").default>("./extract-classes.js");
+    const classes = await extractClasses({ inputStyleSheetPath, inputStyleSheet, configPath });
+    spinner.succeed();
+
+    spinner = ora().start("Generate TypeScript source");
+    const generateTypeScriptSource = wrap<typeof import("./generate-typescript").default>("./generate-typescript.js");
+    const typescriptSource = await generateTypeScriptSource(classes);
+    spinner.succeed();
+
+    spinner = ora().start(outputPath ? "Write output module to disk" : "Write output module to stdout");
+    await writeOutput(outputPath, typescriptSource);
+    spinner.succeed();
+  } catch (error: unknown) {
+    spinner?.fail();
+
+    if (error instanceof Error) {
+      delete error.stack;
+    }
+
+    throw error;
   }
 }
 

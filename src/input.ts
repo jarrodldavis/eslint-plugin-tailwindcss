@@ -8,13 +8,15 @@ const DEFAULT_INPUT_STYLE_SHEET = `
   @tailwind components;
 `;
 
-export default async function getInputStyleSheet(styleSheetPath?: string): Promise<[string, string | undefined]> {
+export default async function readInput(styleSheetPath?: string): Promise<[string, string | undefined]> {
   if (styleSheetPath === "-") {
+    if (process.stdin.isTTY) {
+      throw new Error("Refusing to read from stdin because it is a TTY.");
+    }
+
     let inputStyleSheet = "";
-    if (!process.stdin.isTTY) {
-      for await (const chunk of process.stdin) {
-        inputStyleSheet += chunk;
-      }
+    for await (const chunk of process.stdin) {
+      inputStyleSheet += chunk;
     }
     return [inputStyleSheet, undefined];
   } else if (styleSheetPath) {

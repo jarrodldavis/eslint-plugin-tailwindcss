@@ -1,3 +1,5 @@
+import { expose } from "./comlink";
+
 // language=TypeScript
 const codeTemplate = `
   import clsx from "clsx";
@@ -38,3 +40,5 @@ export default function generateTypeScriptSource(classes: Iterable<string>): str
     return codeTemplate.replace("never", literals.join("\n"));
   }
 }
+
+expose(generateTypeScriptSource);
