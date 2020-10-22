@@ -24,6 +24,7 @@
     "build": "tsc",
     "postversion": "run-s push:*",
     "push:npm": "npm publish",
+    "push:github": "npm publish --registry=https://npm.pkg.github.com",
     "push:branch": "git push",
     "push:tags": "git push --tags"
   },
