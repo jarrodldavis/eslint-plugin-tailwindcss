@@ -10,12 +10,21 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "run-s -ns lint:* build",
     "lint": "run-s -cns lint:*",
     "lint:format": "prettier --check .",
     "lint:ts": "tsc --noEmit",
-    "lint:es": "eslint ."
+    "lint:es": "eslint .",
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "postversion": "run-s push:*",
+    "push:npm": "npm publish",
+    "push:git": "git push --tags"
   },
   "engines": {
     "node": "^14.14.0",
