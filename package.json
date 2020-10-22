@@ -1,6 +1,6 @@
 {
   "name": "@jarrodldavis/tailwindcss-clsx",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "TypeScript type generator for Tailwind utility classes and `clsx`",
   "main": "dist/index.js",
   "bin": {
