@@ -17,5 +17,8 @@
     "ecmaVersion": 2020,
     "tsconfigRootDir": ".",
     "project": ["./tsconfig.json"]
+  },
+  "rules": {
+    "node/no-missing-import": ["error", { "tryExtensions": [".js", ".ts"] }]
   }
 }
