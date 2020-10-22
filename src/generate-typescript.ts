@@ -5,7 +5,7 @@ const codeTemplate = `
   import clsx from "clsx";
 
   type twclsx = (...classes: TailwindUtilityClassValue[]) => string;
-  const tw = clsx as twclsx;
+  const tw: twclsx = clsx as twclsx;
   export default tw;
 
   type TailwindUtilityClassValue =
