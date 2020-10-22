@@ -17,7 +17,7 @@ const codeTemplate = `
     | undefined;
 
   type TailwindUtilityClassDictionary = {
-    [P in TailwindUtilityClass]: null | boolean | undefined
+    [P in TailwindUtilityClass]?: null | boolean | undefined;
   };
 
   type TailwindUtilityClassArray = Array<TailwindUtilityClassValue>;
@@ -37,7 +37,7 @@ export default function generateTypeScriptSource(classes: Iterable<string>): str
     return codeTemplate;
   } else {
     literals.unshift(""); // add initial newline
-    return codeTemplate.replace("never", literals.join("\n"));
+    return codeTemplate.replace(" never", literals.join("\n"));
   }
 }
 
