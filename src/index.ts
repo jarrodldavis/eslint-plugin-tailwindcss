@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { promises as fs } from "fs";
 
 import getInputStyleSheet from "./get-style-sheet";
@@ -20,6 +22,10 @@ async function entrypoint({ styleSheetPath, configPath, outputPath }: Options = 
   } else {
     process.stdout.write(typescriptSource);
   }
+}
+
+if (require.main !== module) {
+  throw new Error("This module should not be imported or required; it is a CLI entrypoint.");
 }
 
 entrypoint().catch(console.error);

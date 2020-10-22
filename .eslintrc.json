@@ -19,6 +19,7 @@
     "project": ["./tsconfig.json"]
   },
   "rules": {
-    "node/no-missing-import": ["error", { "tryExtensions": [".js", ".ts"] }]
+    "node/no-missing-import": ["error", { "tryExtensions": [".js", ".ts"] }],
+    "node/shebang": ["error", { "convertPath": { "src/*.ts": ["^src/(.+?)\\.ts$", "dist/$1.js"] } }]
   }
 }
