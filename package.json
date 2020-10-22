@@ -24,7 +24,8 @@
     "build": "tsc",
     "postversion": "run-s push:*",
     "push:npm": "npm publish",
-    "push:git": "git push --tags"
+    "push:branch": "git push",
+    "push:tags": "git push --tags"
   },
   "engines": {
     "node": "^14.14.0",
