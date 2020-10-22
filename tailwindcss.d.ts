@@ -1,5 +1,5 @@
 declare module "tailwindcss" {
-  import { AcceptedPlugin } from "postcss";
-  const tailwindcss: AcceptedPlugin;
+  import { Plugin } from "postcss";
+  const tailwindcss: Plugin<string>;
   export default tailwindcss;
 }
