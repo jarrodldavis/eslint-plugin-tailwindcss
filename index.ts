@@ -1,9 +1,8 @@
-import { EOL } from "os";
 import postcss, { Root, Transformer } from "postcss";
 import createSelectorParser from "postcss-selector-parser";
 import tailwindcss from "tailwindcss";
 
-async function extractClasses(): Promise<Set<string>> {
+async function extractClasses(): Promise<Iterable<string>> {
   const classes = new Set<string>();
 
   const transformer: Transformer = (root: Root): void => {
@@ -25,30 +24,45 @@ async function extractClasses(): Promise<Set<string>> {
   return classes;
 }
 
-function generateUtilityClassesType(classes: Iterable<string>): string {
-  const lines = [
-    'import clsx from "clsx";',
-    "",
-    "type ClassValue<T extends string> = ClassArray<T> | ClassDictionary<T> | T | null | boolean | undefined;",
-    "type ClassDictionary<T extends string> = { [P in T]: null | boolean | undefined };",
-    "type ClassArray<T extends string> = Array<ClassValue<T>>;",
-    "",
-    "const tw = (...classes: ClassValue<TailwindUtilityClasses>[]): string => clsx(classes) as string;",
-    "export default tw;",
-    "",
-    "type TailwindUtilityClasses =",
-  ];
+// language=TypeScript
+const codeTemplate = `
+  import clsx from "clsx";
 
+  type twclsx = (...classes: TailwindUtilityClassValue[]) => string;
+  const tw = clsx as twclsx;
+  export default tw;
+
+  type TailwindUtilityClassValue =
+    | TailwindUtilityClassArray
+    | TailwindUtilityClassDictionary
+    | TailwindUtilityClass
+    | null
+    | boolean
+    | undefined;
+
+  type TailwindUtilityClassDictionary = {
+    [P in TailwindUtilityClass]: null | boolean | undefined
+  };
+
+  type TailwindUtilityClassArray = Array<TailwindUtilityClassValue>;
+
+  type TailwindUtilityClass = never;
+`
+  .replace(/^ {2}/gm, "")
+  .trim();
+
+function generateTypeScriptSource(classes: Iterable<string>): string {
+  const literals = [];
   for (const cls of classes) {
-    lines.push(`  | "${cls}"`);
+    literals.push(`  | "${cls}"`);
   }
 
-  lines[lines.length - 1] += ";";
-
-  return lines.join(EOL);
+  if (literals.length === 0) {
+    return codeTemplate;
+  } else {
+    literals.unshift(""); // add initial newline
+    return codeTemplate.replace("never", literals.join("\n"));
+  }
 }
 
-extractClasses()
-  .then((classes) => generateUtilityClassesType(classes))
-  .then(console.log)
-  .catch(console.error);
+extractClasses().then(generateTypeScriptSource).then(console.log).catch(console.error);
