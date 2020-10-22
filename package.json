@@ -49,10 +49,12 @@
     "tailwindcss": "^1.9.5"
   },
   "dependencies": {
-    "postcss-selector-parser": "^6.0.4"
+    "postcss-selector-parser": "^6.0.4",
+    "sade": "^1.7.4"
   },
   "devDependencies": {
     "@types/node": "^14.14.0",
+    "@types/sade": "^1.7.2",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
     "clsx": "^1.1.1",

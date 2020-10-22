@@ -2,15 +2,10 @@
 
 import { promises as fs } from "fs";
 
+import run, { Options } from "./cli";
 import getInputStyleSheet from "./get-style-sheet";
 import extractClasses from "./extract-classes";
 import generateTypeScriptSource from "./generate-typescript";
-
-interface Options {
-  styleSheetPath?: string;
-  configPath?: string;
-  outputPath?: string;
-}
 
 async function entrypoint({ styleSheetPath, configPath, outputPath }: Options = {}): Promise<void> {
   const [inputStyleSheet, inputStyleSheetPath] = await getInputStyleSheet(styleSheetPath);
@@ -28,4 +23,4 @@ if (require.main !== module) {
   throw new Error("This module should not be imported or required; it is a CLI entrypoint.");
 }
 
-entrypoint().catch(console.error);
+run(entrypoint);
