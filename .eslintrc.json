@@ -19,7 +19,8 @@
     "project": ["./tsconfig.json"]
   },
   "rules": {
+    "no-process-exit": "off",
     "node/no-missing-import": ["error", { "tryExtensions": [".js", ".ts"] }],
-    "node/shebang": ["error", { "convertPath": { "src/*.ts": ["^src/(.+?)\\.ts$", "dist/$1.js"] } }]
+    "node/shebang": ["error", { "convertPath": { "src/**/*.ts": ["^src/(.+?)\\.ts$", "dist/$1.js"] } }]
   }
 }
