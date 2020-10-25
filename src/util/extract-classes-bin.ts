@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import postcss, { Root, Transformer } from "postcss";
 import createSelectorParser from "postcss-selector-parser";
 import tailwindcss from "tailwindcss";

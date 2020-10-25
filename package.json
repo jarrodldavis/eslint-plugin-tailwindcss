@@ -5,8 +5,7 @@
   "main": "dist/index.js",
   "bin": {
     "tailwindcss-clsx": "dist/index.js",
-    "twclsx": "dist/index.js",
-    "__tailwindcss-extract-classes": "dist/util/extract-classes-bin.js"
+    "twclsx": "dist/index.js"
   },
   "files": [
     "dist"

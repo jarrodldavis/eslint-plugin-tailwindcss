@@ -22,13 +22,10 @@ function readStyles(stylesPath: string | null): [string, string | null] {
 }
 
 function extractClasses(args: ExtractArgs): string[] {
-  const file = path.join(__dirname, "./extract-classes-bin.js");
-
-  // make file executable
-  const { mode } = fs.statSync(file);
-  fs.chmodSync(file, mode | fs.constants.S_IXUSR | fs.constants.S_IXGRP | fs.constants.S_IXOTH);
-
-  const rawClasses = execFileSync(file, { encoding: "utf-8", input: JSON.stringify(args) });
+  const rawClasses = execFileSync(process.argv[0], [path.join(__dirname, "./extract-classes-bin.js")], {
+    encoding: "utf-8",
+    input: JSON.stringify(args),
+  });
 
   const parsedClasses = JSON.parse(rawClasses) as unknown;
   if (Array.isArray(parsedClasses)) {
