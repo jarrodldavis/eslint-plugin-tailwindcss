@@ -27,10 +27,6 @@ export default function parseClassName(source: SourceCode, literal: Literal): Cl
 
   const indexMapping = createMapping(raw, literal.value);
 
-  function isCorrectRawCharacter(character: string, rawIndex: number): boolean {
-    return raw[rawIndex] === character || (raw[rawIndex] === "\\" && raw[rawIndex + 1] === character);
-  }
-
   function mapMatch(match: RegExpMatchArray): ClassNameMatch {
     const index = match.index;
 
@@ -50,14 +46,10 @@ export default function parseClassName(source: SourceCode, literal: Literal): Cl
       throw new Error("Could not map from value start index to raw start index: " + details);
     } else if (valueStart.character !== matchValue[0]) {
       throw new Error("Unexpected mismatch of matched class name value and raw start mapping entry: " + details);
-    } else if (!isCorrectRawCharacter(valueStart.character, valueStart.index)) {
-      throw new Error("Unexpected mismatch of raw string literal and raw start mapping entry: " + details);
     } else if (valueEnd === undefined) {
       throw new Error("Could not map from value end index to raw end index: " + details);
     } else if (valueEnd.character !== matchValue[matchValue.length - 1]) {
       throw new Error("Unexpected mismatch of matched class name value and raw end mapping entry: " + details);
-    } else if (!isCorrectRawCharacter(valueEnd.character, valueEnd.index)) {
-      throw new Error("Unexpected mismatch of raw string literal and raw end mapping entry: " + details);
     }
 
     const range: [number, number] = [

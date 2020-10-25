@@ -14,7 +14,7 @@
      ```
  *
  **/
-const ESCAPE_SEQUENCE_REGEX = /^\\(\d{1,3}|['"\\nrvtbf]|u\d{4}|u\{\d{1,6}\}|x\d{2}|[^'"\\nrvtbfux\d])/;
+const ESCAPE_SEQUENCE_REGEX = /^\\(\d{1,3}|['"\\nrvtbf]|u\d{4}|u\{\d{1,6}\}|x[a-fA-F0-9]{2}|[^'"\\nrvtbfux\d])/;
 
 interface RawMappingEntry {
   character: string;
