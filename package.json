@@ -69,6 +69,7 @@
   },
   "devDependencies": {
     "@types/eslint": "^7.2.4",
+    "@types/estree-jsx": "0.0.0",
     "@types/node": "^14.14.0",
     "@types/sade": "^1.7.2",
     "@types/supports-color": "^5.3.0",

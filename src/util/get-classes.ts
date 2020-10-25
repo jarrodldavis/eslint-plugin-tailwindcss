@@ -36,9 +36,9 @@ function extractClasses(args: ExtractArgs): string[] {
 }
 
 let cachedStylesHash = "";
-let cachedClassesValue = [] as string[];
+let cachedClassesValue = new Set<string>();
 
-export default function getClasses(options: Options): string[] {
+export default function getClasses(options: Options): Set<string> {
   const [styles, stylesPath] = readStyles(options.stylesheet);
 
   const stylesHash = createHash("sha1").update(styles).digest("hex");
@@ -46,7 +46,7 @@ export default function getClasses(options: Options): string[] {
   if (stylesHash !== cachedStylesHash) {
     const classes = extractClasses({ styles, stylesPath, configPath: options.config });
     cachedStylesHash = stylesHash;
-    cachedClassesValue = classes;
+    cachedClassesValue = new Set(classes);
   }
 
   return cachedClassesValue;
