@@ -1,0 +1,16 @@
+diff --git a/node_modules/@types/estree-jsx/index.d.ts b/node_modules/@types/estree-jsx/index.d.ts
+index f8b1019..15de3a9 100644
+--- a/node_modules/@types/estree-jsx/index.d.ts
++++ b/node_modules/@types/estree-jsx/index.d.ts
+@@ -31,8 +31,10 @@ export interface JSXMemberExpression extends BaseExpression {
+     type: 'JSXMemberExpression';
+ }
+ 
+-export interface JSXNamespacedName extends BaseExpression {
++export interface JSXNamespacedName extends BaseNode {
+     type: 'JSXNamespacedName';
++    namespace: JSXIdentifier;
++    name: JSXIdentifier;
+ }
+ 
+ export interface JSXEmptyExpression extends BaseNode {
