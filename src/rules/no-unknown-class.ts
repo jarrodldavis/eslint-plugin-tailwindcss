@@ -67,8 +67,8 @@ export const create: Create = function create(context) {
     return invalid;
   }
 
-  return {
-    "JSXAttribute[name.name='className'] Literal"(node: Node) {
+  const validators = {
+    literal(node: Node) {
       if (node.type !== "Literal") {
         throw new Error("Unexpected non-literal node.");
       }
@@ -79,7 +79,7 @@ export const create: Create = function create(context) {
 
       reportUnknownClasses(parseClassName(source, node));
     },
-    "JSXAttribute[name.name='className'] JSXExpressionContainer > Identifier"(node: Node) {
+    identifier(node: Node) {
       if (node.type !== "Identifier") {
         throw new Error("Unexpected non-Identifier node.");
       }
@@ -115,4 +115,18 @@ export const create: Create = function create(context) {
       }
     },
   };
+
+  /* eslint-disable @typescript-eslint/unbound-method */
+
+  const literalListeners = options.classNameAttributes
+    .map((name) => `JSXAttribute[name.name=${JSON.stringify(name)}] Literal`)
+    .reduce((listeners, selector) => ({ ...listeners, [selector]: validators.literal }), {});
+
+  const identifierListeners = options.classNameAttributes
+    .map((name) => `JSXAttribute[name.name=${JSON.stringify(name)}] JSXExpressionContainer > Identifier`)
+    .reduce((listeners, selector) => ({ ...listeners, [selector]: validators.identifier }), {});
+
+  /* eslint-enable @typescript-eslint/unbound-method */
+
+  return { ...literalListeners, ...identifierListeners };
 };
