@@ -26,8 +26,6 @@ export const create: Create = function create(context) {
   const options = getOptions(context.options);
   const classes = getClasses(options);
 
-  console.log(options, classes);
-
   const source = context.getSourceCode();
 
   function validateClasses(matches: ClassNameMatch[]): void {
@@ -41,7 +39,7 @@ export const create: Create = function create(context) {
   }
 
   return {
-    "JSXAttribute[name.name='className'] > Literal"(node: Node) {
+    "JSXAttribute[name.name='className'] Literal"(node: Node) {
       if (node.type !== "Literal") {
         throw new Error("Unexpected non-literal node.");
       }
@@ -53,6 +51,4 @@ export const create: Create = function create(context) {
       validateClasses(parseClassName(source, node));
     },
   };
-
-  return {};
 };
