@@ -1,0 +1,11 @@
+{
+  "root": true,
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2020,
+    "ecmaFeatures": { "jsx": true }
+  },
+  "rules": {
+    "no-unknown-class": "error"
+  }
+}
