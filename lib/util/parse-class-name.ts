@@ -1,7 +1,6 @@
+import type { SourceCode } from "eslint";
 import type { Literal } from "estree-jsx";
 import type { ClassNameMatch } from "./types";
-
-import { SourceCode } from "eslint";
 
 import createMapping from "./raw-string-mapping";
 

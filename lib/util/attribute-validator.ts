@@ -3,7 +3,7 @@ import type { Node } from "estree-jsx";
 import Validator from "./validator";
 
 export default class AttributeValidator extends Validator {
-  validateAttribute(node: Node): boolean {
+  public validateAttribute(node: Node): boolean {
     if (node.type !== "JSXAttribute") {
       throw new Error("Unexpected non-attribute node.");
     }

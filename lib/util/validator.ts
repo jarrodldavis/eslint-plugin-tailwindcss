@@ -1,10 +1,10 @@
 import type { Rule, Scope, SourceCode } from "eslint";
 import type { Node } from "estree-jsx";
+import type { Options } from "./options";
+import type { ClassNameMatch } from "./types";
 
 import Reporter from "./reporter";
 import parseClassName from "./parse-class-name";
-import { Options } from "./options";
-import { ClassNameMatch } from "./types";
 
 function findVariable(currentScope: Scope.Scope, name: string): Scope.Variable | undefined {
   let scope: Scope.Scope | null = currentScope;

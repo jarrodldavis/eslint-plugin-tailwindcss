@@ -1,4 +1,6 @@
-import postcss, { Root, Transformer } from "postcss";
+import type { Root, Transformer } from "postcss";
+
+import postcss from "postcss";
 import createSelectorParser from "postcss-selector-parser";
 import tailwindcss from "tailwindcss";
 

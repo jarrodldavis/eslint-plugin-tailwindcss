@@ -1,9 +1,9 @@
 import type { ExtractArgs } from "./extract-classes-bin";
 import type { Options } from "./options";
 
+import { execFileSync } from "child_process";
 import { createHash } from "crypto";
 import fs from "fs";
-import { execFileSync } from "child_process";
 import path from "path";
 
 function readStyles(stylesPath: string | null): [string, string | null] {

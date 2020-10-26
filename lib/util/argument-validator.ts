@@ -80,7 +80,7 @@ export default class ArgumentValidator extends Validator {
     }
   }
 
-  validateCallExpression(node: Node): boolean {
+  public validateCallExpression(node: Node): boolean {
     if (node.type !== "CallExpression") {
       throw new Error("Unexpected non-call-expression node.");
     }
