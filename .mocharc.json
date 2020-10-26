@@ -1,4 +1,5 @@
 {
   "spec": "dist/test/**/*.test.js",
-  "slow": 150
+  "slow": 150,
+  "require": "./dist/test/prime-class-cache.js"
 }

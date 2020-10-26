@@ -1,0 +1,22 @@
+diff --git a/node_modules/eslint/lib/rule-tester/rule-tester.js b/node_modules/eslint/lib/rule-tester/rule-tester.js
+index 905f341..6da2a6a 100644
+--- a/node_modules/eslint/lib/rule-tester/rule-tester.js
++++ b/node_modules/eslint/lib/rule-tester/rule-tester.js
+@@ -881,7 +881,7 @@ class RuleTester {
+         RuleTester.describe(ruleName, () => {
+             RuleTester.describe("valid", () => {
+                 test.valid.forEach(valid => {
+-                    RuleTester.it(sanitize(typeof valid === "object" ? valid.code : valid), () => {
++                    RuleTester.it(sanitize(typeof valid === "object" ? valid.filename ? valid.filename : valid.code : valid), () => {
+                         testValidTemplate(valid);
+                     });
+                 });
+@@ -889,7 +889,7 @@ class RuleTester {
+ 
+             RuleTester.describe("invalid", () => {
+                 test.invalid.forEach(invalid => {
+-                    RuleTester.it(sanitize(invalid.code), () => {
++                    RuleTester.it(sanitize(invalid.filename ? invalid.filename : invalid.code), () => {
+                         testInvalidTemplate(invalid);
+                     });
+                 });
