@@ -19,7 +19,7 @@
     "build": "run-s -ns build:*",
     "build:clean": "rimraf dist",
     "build:ts": "tsc",
-    "build:fixtures": "copyfiles 'test/fixtures/**' 'dist/'",
+    "build:fixtures": "copyfiles 'tests/fixtures/**' 'dist/'",
     "pretest": "run-s -ns lint:* build:*",
     "test": "mocha",
     "postversion": "run-s push:*",

@@ -1,8 +1,8 @@
 import { RuleTester } from "eslint";
 
-import loadTestCases from "../load-test-cases";
+import loadTestCases from "../../load-test-cases";
 
-import * as rule from "../../lib/rules/no-unknown-class";
+import * as rule from "../../../lib/rules/no-unknown-class";
 
 const tester = new RuleTester({
   parserOptions: {

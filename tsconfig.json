@@ -22,5 +22,5 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
   },
-  "include": ["lib", "test", "*.d.ts"]
+  "include": ["lib", "tests", "*.d.ts"]
 }
