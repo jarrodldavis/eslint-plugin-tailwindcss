@@ -1,0 +1,8 @@
+import clsx from "clsx";
+
+export default function Component() {
+  const classes = clsx(
+    { "class-a class-b": true, "class-c class-d": false },
+    { "class-e class-f": true, "class-g class-h": false }
+  );
+}

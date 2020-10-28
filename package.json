@@ -1,29 +1,29 @@
 {
-  "name": "@jarrodldavis/tailwindcss-clsx",
+  "name": "@jarrodldavis/eslint-plugin-tailwindcss",
   "version": "0.1.6",
-  "description": "TypeScript type generator for Tailwind utility classes and `clsx`",
-  "main": "dist/index.js",
-  "bin": {
-    "tailwindcss-clsx": "dist/index.js",
-    "twclsx": "dist/index.js"
-  },
+  "description": "An ESLint plugin to enforce usage of Tailwind CSS utility and component classes.",
+  "main": "dist/lib/index.js",
   "files": [
-    "dist"
+    "dist/lib"
   ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "run-s -ns prepare:* lint:* build",
+    "prepare": "run-s -ns prepare:*",
+    "prepack": "run-s -ns test",
+    "pretest": "run-s -ns lint:* build:*",
+    "test": "mocha",
+    "postversion": "run-s push:*",
     "prepare:patch": "patch-package",
     "lint": "run-s -cns lint:*",
     "lint:format": "prettier --check .",
     "lint:ts": "tsc --noEmit",
     "lint:es": "eslint .",
-    "prebuild": "rimraf dist",
-    "build": "tsc",
-    "postversion": "run-s push:*",
+    "build": "run-s -ns build:*",
+    "build:clean": "rimraf dist",
+    "build:ts": "tsc",
+    "build:fixtures": "copyfiles 'tests/fixtures/**' 'dist/'",
     "push:npm": "npm publish",
     "push:github": "npm publish --registry=https://npm.pkg.github.com",
     "push:branch": "git push",
@@ -35,49 +35,51 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jarrodldavis/tailwindcss-clsx.git"
+    "url": "git+https://github.com/jarrodldavis/eslint-plugin-tailwindcss.git"
   },
   "keywords": [
-    "typescript",
-    "types",
-    "generator",
-    "code-generator",
-    "codegen",
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin",
     "tailwind",
     "tailwindcss",
     "css",
     "functional-css",
-    "utility-css"
+    "utility-css",
+    "clsx",
+    "classname",
+    "classnames",
+    "classcat",
+    "classlist"
   ],
   "author": "Jarrod Davis <developer@jarrodldavis.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jarrodldavis/tailwindcss-clsx/issues"
+    "url": "https://github.com/jarrodldavis/eslint-plugin-tailwindcss/issues"
   },
-  "homepage": "https://github.com/jarrodldavis/tailwindcss-clsx#readme",
+  "homepage": "https://github.com/jarrodldavis/eslint-plugin-tailwindcss#readme",
   "peerDependencies": {
-    "clsx": "^1.1.1",
+    "eslint": "^7.11.0",
     "postcss": "^7.0.35",
     "tailwindcss": "^1.9.5"
   },
   "dependencies": {
-    "comlink": "^4.3.0",
-    "ora": "^5.1.0",
-    "postcss-selector-parser": "^6.0.4",
-    "sade": "^1.7.4",
-    "supports-color": "^7.2.0"
+    "esquery": "^1.3.1",
+    "postcss-selector-parser": "^6.0.4"
   },
   "devDependencies": {
+    "@types/eslint": "^7.2.4",
+    "@types/esquery": "^1.0.1",
+    "@types/estree-jsx": "0.0.0",
     "@types/node": "^14.14.0",
-    "@types/sade": "^1.7.2",
-    "@types/supports-color": "^5.3.0",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
-    "clsx": "^1.1.1",
+    "copyfiles": "^2.4.0",
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^6.14.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-node": "^11.1.0",
+    "mocha": "^8.2.0",
     "npm-run-all": "^4.1.5",
     "patch-package": "^6.2.2",
     "postcss": "^7.0.35",

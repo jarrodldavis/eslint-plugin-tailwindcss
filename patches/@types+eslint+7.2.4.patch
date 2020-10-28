@@ -1,0 +1,23 @@
+diff --git a/node_modules/@types/eslint/index.d.ts b/node_modules/@types/eslint/index.d.ts
+index f0aa090..45de4e0 100644
+--- a/node_modules/@types/eslint/index.d.ts
++++ b/node_modules/@types/eslint/index.d.ts
+@@ -10,7 +10,7 @@
+ /// <reference path="helpers.d.ts" />
+ 
+ import { JSONSchema4 } from 'json-schema';
+-import * as ESTree from 'estree';
++import * as ESTree from 'estree-jsx';
+ 
+ export namespace AST {
+     type TokenType =
+@@ -76,6 +76,9 @@ export namespace Scope {
+         identifiers: ESTree.Identifier[];
+         references: Reference[];
+         defs: Definition[];
++        eslintImplicitGlobalSetting?: "readonly" | "writable";
++        eslintExplicitGlobal?: boolean;
++        eslintExplicitGlobalComments?: Array<ESTree.Comment>;
+     }
+ 
+     interface Reference {

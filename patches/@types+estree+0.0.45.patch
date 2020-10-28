@@ -1,0 +1,14 @@
+diff --git a/node_modules/@types/estree/index.d.ts b/node_modules/@types/estree/index.d.ts
+index 27ebe94..601cdb8 100644
+--- a/node_modules/@types/estree/index.d.ts
++++ b/node_modules/@types/estree/index.d.ts
+@@ -39,7 +39,8 @@ export type Node =
+     Identifier | Literal | Program | Function | SwitchCase | CatchClause |
+     VariableDeclarator | Statement | Expression | Property |
+     AssignmentProperty | Super | TemplateElement | SpreadElement | Pattern |
+-    ClassBody | Class | MethodDefinition | ModuleDeclaration | ModuleSpecifier;
++    ClassBody | Class | MethodDefinition | ModuleDeclaration | ModuleSpecifier |
++    Comment;
+ 
+ export interface Comment extends BaseNodeWithoutComments {
+   type: "Line" | "Block";

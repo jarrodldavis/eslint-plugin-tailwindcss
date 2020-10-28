@@ -1,0 +1,18 @@
+[
+  {
+    "messageId": "unknownInLiteral",
+    "data": { "name": "class-a" },
+    "line": 2,
+    "column": 35,
+    "endLine": 2,
+    "endColumn": 42
+  },
+  {
+    "messageId": "unknownInLiteral",
+    "data": { "name": "class-b" },
+    "line": 2,
+    "column": 43,
+    "endLine": 2,
+    "endColumn": 50
+  }
+]

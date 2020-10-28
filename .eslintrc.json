@@ -19,7 +19,8 @@
     "project": ["./tsconfig.json"]
   },
   "rules": {
-    "node/no-missing-import": ["error", { "tryExtensions": [".js", ".ts"] }],
-    "node/shebang": ["error", { "convertPath": { "src/*.ts": ["^src/(.+?)\\.ts$", "dist/$1.js"] } }]
+    "no-process-exit": "off",
+    "node/no-missing-import": ["error", { "tryExtensions": [".js", ".ts"], "allowModules": ["estree", "estree-jsx"] }],
+    "node/shebang": ["error", { "convertPath": { "lib/**/*.ts": ["^lib/(.+?)\\.ts$", "dist/lib/$1.js"] } }]
   }
 }

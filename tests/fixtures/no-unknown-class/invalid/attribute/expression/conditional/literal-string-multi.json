@@ -1,0 +1,34 @@
+[
+  {
+    "messageId": "unknownInLiteral",
+    "data": { "name": "class-a" },
+    "line": 2,
+    "column": 34,
+    "endLine": 2,
+    "endColumn": 41
+  },
+  {
+    "messageId": "unknownInLiteral",
+    "data": { "name": "class-b" },
+    "line": 2,
+    "column": 42,
+    "endLine": 2,
+    "endColumn": 49
+  },
+  {
+    "messageId": "unknownInLiteral",
+    "data": { "name": "class-c" },
+    "line": 2,
+    "column": 54,
+    "endLine": 2,
+    "endColumn": 61
+  },
+  {
+    "messageId": "unknownInLiteral",
+    "data": { "name": "class-d" },
+    "line": 2,
+    "column": 62,
+    "endLine": 2,
+    "endColumn": 69
+  }
+]
