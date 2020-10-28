@@ -10,7 +10,11 @@
     "access": "public"
   },
   "scripts": {
-    "prepare": "run-s -ns prepare:* test",
+    "prepare": "run-s -ns prepare:*",
+    "prepack": "run-s -ns test",
+    "pretest": "run-s -ns lint:* build:*",
+    "test": "mocha",
+    "postversion": "run-s push:*",
     "prepare:patch": "patch-package",
     "lint": "run-s -cns lint:*",
     "lint:format": "prettier --check .",
@@ -20,9 +24,6 @@
     "build:clean": "rimraf dist",
     "build:ts": "tsc",
     "build:fixtures": "copyfiles 'tests/fixtures/**' 'dist/'",
-    "pretest": "run-s -ns lint:* build:*",
-    "test": "mocha",
-    "postversion": "run-s push:*",
     "push:npm": "npm publish",
     "push:github": "npm publish --registry=https://npm.pkg.github.com",
     "push:branch": "git push",
