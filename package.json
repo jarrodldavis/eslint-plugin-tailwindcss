@@ -1,7 +1,7 @@
 {
   "name": "@jarrodldavis/eslint-plugin-tailwindcss",
   "version": "0.1.6",
-  "description": "An ESLint plugin to enforce usage of Tailwind CSS utility classes",
+  "description": "An ESLint plugin to enforce usage of Tailwind CSS utility and component classes.",
   "main": "dist/lib/index.js",
   "files": [
     "dist/lib"
