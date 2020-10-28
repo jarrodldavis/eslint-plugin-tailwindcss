@@ -47,29 +47,17 @@ export default class ArgumentValidator extends Validator {
         const rightValid = this.validateArgument(node.alternate);
         return leftValid && rightValid;
       }
-      case "ArrayExpression": {
-        let argumentsValid = true;
-
-        for (const element of node.elements) {
-          if (element.type === "SpreadElement") {
-            argumentsValid &&= this.validateArgument(element.argument);
-          } else {
-            argumentsValid &&= this.validateArgument(element);
-          }
-        }
-        return argumentsValid;
-      }
-      case "ObjectExpression": {
-        let propsValid = true;
-        for (const property of node.properties) {
-          if (property.type === "SpreadElement") {
-            propsValid &&= this.validateArgument(property.argument);
-          } else {
-            propsValid &&= this.validateObjectProperty(property);
-          }
-        }
-        return propsValid;
-      }
+      case "ArrayExpression":
+        return node.elements
+          .map((element) => (element.type === "SpreadElement" ? element.argument : element))
+          .map((element) => this.validateArgument(element))
+          .reduce((allValid, elementValid) => allValid && elementValid);
+      case "ObjectExpression":
+        return node.properties
+          .map((property) => this.validateArgument(property))
+          .reduce((allValid, propertyValid) => allValid && propertyValid);
+      case "Property":
+        return this.validateObjectProperty(node);
       default:
         if (!this.isClassNameBuilder(node)) {
           this.reporter.reportDynamicExpression(node);
@@ -91,13 +79,12 @@ export default class ArgumentValidator extends Validator {
 
     this.reporter.setCurrent(node);
 
-    let argsValid = true;
-    for (const argument of node.arguments) {
-      argsValid &&= this.validateArgument(argument);
-    }
+    const allValid = node.arguments
+      .map((argument) => this.validateArgument(argument))
+      .reduce((allValid, argumentValid) => allValid && argumentValid);
 
     this.reporter.setCurrent(null);
 
-    return argsValid;
+    return allValid;
   }
 }
