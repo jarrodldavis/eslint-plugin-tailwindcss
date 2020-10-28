@@ -58,6 +58,7 @@
   },
   "homepage": "https://github.com/jarrodldavis/eslint-plugin-tailwindcss#readme",
   "peerDependencies": {
+    "eslint": "^7.11.0",
     "postcss": "^7.0.35",
     "tailwindcss": "^1.9.5"
   },
