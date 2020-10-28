@@ -16,6 +16,7 @@ export const meta: Metadata = {
     description: "disallow unknown Tailwind utility or component classes",
     category: "Possible Errors",
     recommended: true,
+    url: "https://github.com/jarrodldavis/eslint-plugin-tailwindcss/blob/main/docs/rules/no-unknown-class.md",
   },
   messages: MESSAGES,
   schema,
