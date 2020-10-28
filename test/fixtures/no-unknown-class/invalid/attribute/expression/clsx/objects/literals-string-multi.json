@@ -1,0 +1,66 @@
+[
+  {
+    "messageId": "unknownInLiteral",
+    "data": { "name": "class-a" },
+    "line": 7,
+    "column": 12,
+    "endLine": 7,
+    "endColumn": 19
+  },
+  {
+    "messageId": "unknownInLiteral",
+    "data": { "name": "class-b" },
+    "line": 7,
+    "column": 20,
+    "endLine": 7,
+    "endColumn": 27
+  },
+  {
+    "messageId": "unknownInLiteral",
+    "data": { "name": "class-c" },
+    "line": 7,
+    "column": 37,
+    "endLine": 7,
+    "endColumn": 44
+  },
+  {
+    "messageId": "unknownInLiteral",
+    "data": { "name": "class-d" },
+    "line": 7,
+    "column": 45,
+    "endLine": 7,
+    "endColumn": 52
+  },
+  {
+    "messageId": "unknownInLiteral",
+    "data": { "name": "class-e" },
+    "line": 8,
+    "column": 12,
+    "endLine": 8,
+    "endColumn": 19
+  },
+  {
+    "messageId": "unknownInLiteral",
+    "data": { "name": "class-f" },
+    "line": 8,
+    "column": 20,
+    "endLine": 8,
+    "endColumn": 27
+  },
+  {
+    "messageId": "unknownInLiteral",
+    "data": { "name": "class-g" },
+    "line": 8,
+    "column": 37,
+    "endLine": 8,
+    "endColumn": 44
+  },
+  {
+    "messageId": "unknownInLiteral",
+    "data": { "name": "class-h" },
+    "line": 8,
+    "column": 45,
+    "endLine": 8,
+    "endColumn": 52
+  }
+]
