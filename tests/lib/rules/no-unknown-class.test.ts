@@ -25,7 +25,8 @@ function postcssConfigTestCase(): RuleTester.ValidTestCase {
   return {
     filename: "postcss-config",
     code: read("Component.jsx"),
-    options: [{ config: { postcss: true }, stylesheet: path.join(fixtureRoot, "styles.css") }],
+    options: [{ config: { postcss: true }, stylesheet: "styles.css" }],
+    cwd: fixtureRoot,
   };
 }
 
