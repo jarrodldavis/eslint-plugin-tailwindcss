@@ -1,0 +1,5 @@
+@layer components {
+  .my-custom-component {
+    @apply bg-green-100 text-black;
+  }
+}

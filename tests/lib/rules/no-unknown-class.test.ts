@@ -1,3 +1,6 @@
+import fs from "fs";
+import path from "path";
+
 import { RuleTester } from "eslint";
 
 import loadTestCases from "../../load-test-cases";
@@ -12,4 +15,20 @@ const tester = new RuleTester({
   },
 });
 
-tester.run("no-unknown-class", rule, loadTestCases("no-unknown-class"));
+function postcssConfigTestCase(): RuleTester.ValidTestCase {
+  const fixtureRoot = path.join(__dirname, "../../fixtures/no-unknown-class/postcss-config");
+
+  function read(filename: string): string {
+    return fs.readFileSync(path.join(fixtureRoot, filename), { encoding: "utf-8" });
+  }
+
+  return {
+    filename: "postcss-config",
+    code: read("Component.jsx"),
+    options: [{ config: { postcss: true }, stylesheet: path.join(fixtureRoot, "styles.css") }],
+  };
+}
+
+const cases = loadTestCases("no-unknown-class");
+cases.valid.push(postcssConfigTestCase());
+tester.run("no-unknown-class", rule, cases);
