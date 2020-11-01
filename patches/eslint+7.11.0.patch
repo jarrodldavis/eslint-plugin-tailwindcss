@@ -1,8 +1,149 @@
+diff --git a/node_modules/eslint/lib/rule-tester/index.js b/node_modules/eslint/lib/rule-tester/index.js
+index f52d140..3519163 100644
+--- a/node_modules/eslint/lib/rule-tester/index.js
++++ b/node_modules/eslint/lib/rule-tester/index.js
+@@ -1,5 +1,3 @@
+ "use strict";
+ 
+-module.exports = {
+-    RuleTester: require("./rule-tester")
+-};
++module.exports = require("./rule-tester");
 diff --git a/node_modules/eslint/lib/rule-tester/rule-tester.js b/node_modules/eslint/lib/rule-tester/rule-tester.js
-index 905f341..6da2a6a 100644
+index 905f341..c041702 100644
 --- a/node_modules/eslint/lib/rule-tester/rule-tester.js
 +++ b/node_modules/eslint/lib/rule-tester/rule-tester.js
-@@ -881,7 +881,7 @@ class RuleTester {
+@@ -100,6 +100,12 @@ const espreePath = require.resolve("espree");
+  * @property {number} [endColumn] The 1-based column number of the reported end location.
+  */
+ 
++/**
++ * The private data for `RuleTester` instance.
++ * @typedef {Object} RuleTesterInternalSlots
++ * @property {symbol} injectedLinterMapSymbol symbol key for injected linterMap
++ */
++
+ //------------------------------------------------------------------------------
+ // Private Members
+ //------------------------------------------------------------------------------
+@@ -120,7 +126,8 @@ const RuleTesterParameters = [
+     "filename",
+     "options",
+     "errors",
+-    "output"
++    "output",
++    "cwd"
+ ];
+ 
+ /*
+@@ -311,6 +318,14 @@ function describeDefaultHandler(text, method) {
+     return method.call(this);
+ }
+ 
++/**
++ * The map to store private data.
++ * @type {RuleTesterInternalSlots}
++ */
++const internalSlotsMap = {
++    injectedLinterMapSymbol: Symbol("linterMap")
++};
++
+ class RuleTester {
+ 
+     /**
+@@ -337,7 +352,6 @@ class RuleTester {
+          * @type {Object}
+          */
+         this.rules = {};
+-        this.linter = new Linter();
+     }
+ 
+     /**
+@@ -416,8 +430,10 @@ class RuleTester {
+      * @param {Function} rule The rule to test.
+      * @param {{
+      *   valid: (ValidTestCase | string)[],
+-     *   invalid: InvalidTestCase[]
++     *   invalid: InvalidTestCase[],
++     *   Symbol("linterMap")?: Map<string | undefined, Linter>
+      * }} test The collection of tests to run.
++     * test.[Symbol.for("linterMap")] is for testing purpose
+      * @returns {void}
+      */
+     run(ruleName, rule, test) {
+@@ -425,12 +441,19 @@ class RuleTester {
+         const testerConfig = this.testerConfig,
+             requiredScenarios = ["valid", "invalid"],
+             scenarioErrors = [],
+-            linter = this.linter;
++            rules = this.rules;
+ 
+         if (lodash.isNil(test) || typeof test !== "object") {
+             throw new TypeError(`Test Scenarios for rule ${ruleName} : Could not find test scenario object`);
+         }
+ 
++        /**
++         * Linter map, cwd -> Linter instance
++         * Injection of value in `test` is for test purpose.
++         * @type {Map<string | undefined, Linter>}
++         */
++        const { [internalSlotsMap.injectedLinterMapSymbol]: linterMap = new Map() } = test;
++
+         requiredScenarios.forEach(scenarioType => {
+             if (lodash.isNil(test[scenarioType])) {
+                 scenarioErrors.push(`Could not find any ${scenarioType} test scenarios`);
+@@ -443,20 +466,32 @@ class RuleTester {
+             ].concat(scenarioErrors).join("\n"));
+         }
+ 
++        /**
++         * get linter from linterMap according to cwd
++         * @param {string} [cwd] cwd
++         * @returns {Linter} Linter instance
++         * @private
++         */
++        function getLinter(cwd) {
++            if (!linterMap.has(cwd)) {
++                const linter = new Linter({ cwd });
+ 
+-        linter.defineRule(ruleName, Object.assign({}, rule, {
++                linter.defineRule(ruleName, Object.assign({}, rule, {
+ 
+-            // Create a wrapper rule that freezes the `context` properties.
+-            create(context) {
+-                freezeDeeply(context.options);
+-                freezeDeeply(context.settings);
+-                freezeDeeply(context.parserOptions);
++                    // Create a wrapper rule that freezes the `context` properties.
++                    create(context) {
++                        freezeDeeply(context.options);
++                        freezeDeeply(context.settings);
++                        freezeDeeply(context.parserOptions);
+ 
+-                return (typeof rule === "function" ? rule : rule.create)(context);
++                        return (typeof rule === "function" ? rule : rule.create)(context);
++                    }
++                }));
++                linter.defineRules(rules);
++                linterMap.set(cwd, linter);
+             }
+-        }));
+-
+-        linter.defineRules(this.rules);
++            return linterMap.get(cwd);
++        }
+ 
+         /**
+          * Run the rule for the given item
+@@ -467,6 +502,7 @@ class RuleTester {
+         function runRuleForItem(item) {
+             let config = lodash.cloneDeep(testerConfig),
+                 code, filename, output, beforeAST, afterAST;
++            const linter = getLinter(item.cwd);
+ 
+             if (typeof item === "string") {
+                 code = item;
+@@ -881,7 +917,7 @@ class RuleTester {
          RuleTester.describe(ruleName, () => {
              RuleTester.describe("valid", () => {
                  test.valid.forEach(valid => {
@@ -11,7 +152,7 @@ index 905f341..6da2a6a 100644
                          testValidTemplate(valid);
                      });
                  });
-@@ -889,7 +889,7 @@ class RuleTester {
+@@ -889,7 +925,7 @@ class RuleTester {
  
              RuleTester.describe("invalid", () => {
                  test.invalid.forEach(invalid => {
@@ -20,3 +161,12 @@ index 905f341..6da2a6a 100644
                          testInvalidTemplate(invalid);
                      });
                  });
+@@ -900,4 +936,7 @@ class RuleTester {
+ 
+ RuleTester[DESCRIBE] = RuleTester[IT] = null;
+ 
+-module.exports = RuleTester;
++module.exports = {
++    RuleTester,
++    internalSlotsMap
++};
