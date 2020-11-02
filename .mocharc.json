@@ -1,5 +1,4 @@
 {
   "spec": "dist/tests/**/*.test.js",
-  "slow": 5000,
-  "timeout": 5000
+  "slow": 125
 }

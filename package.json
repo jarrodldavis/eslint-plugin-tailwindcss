@@ -73,6 +73,7 @@
     "@types/eslint": "^7.2.4",
     "@types/esquery": "^1.0.1",
     "@types/estree-jsx": "0.0.0",
+    "@types/mocha": "^8.0.3",
     "@types/node": "^14.14.0",
     "@types/postcss-load-config": "^2.0.1",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
