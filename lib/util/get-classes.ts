@@ -6,19 +6,21 @@ import { createHash } from "crypto";
 import fs from "fs";
 import path from "path";
 
-function readStyles(cwd: string, stylesPath: string | null): [string, string | null] {
-  // language=PostCSS
-  const DEFAULT_INPUT_STYLE_SHEET = `
-    @tailwind base;
-    @tailwind utilities;
-    @tailwind components;
-  `;
+const DEFAULT_INPUT_STYLE_SHEET = `
+  @tailwind base;
+  @tailwind utilities;
+  @tailwind components;
+`;
 
+const DEFAULT_INPUT_CHANGED = new Date();
+
+function readStyles(cwd: string, stylesPath: string | null): [string, string | null, Date] {
   if (stylesPath) {
     const fullStylesPath = path.resolve(cwd, stylesPath);
-    return [fs.readFileSync(fullStylesPath, "utf-8"), fullStylesPath];
+    const { mtime } = fs.statSync(fullStylesPath);
+    return [fs.readFileSync(fullStylesPath, "utf-8"), fullStylesPath, mtime];
   } else {
-    return [DEFAULT_INPUT_STYLE_SHEET, null];
+    return [DEFAULT_INPUT_STYLE_SHEET, null, DEFAULT_INPUT_CHANGED];
   }
 }
 
@@ -38,16 +40,18 @@ function extractClasses(args: ExtractArgs): string[] {
 }
 
 let cachedStylesHash = "";
+let cachedStylesChanged: Date = new Date();
 let cachedClassesValue = new Set<string>();
 
 export default function getClasses(options: Options, cwd: string): Set<string> {
-  const [styles, stylesPath] = readStyles(cwd, options.stylesheet);
+  const [styles, stylesPath, stylesChanged] = readStyles(cwd, options.stylesheet);
 
   const stylesHash = createHash("sha1").update(styles).digest("hex");
 
-  if (stylesHash !== cachedStylesHash) {
+  if (stylesHash !== cachedStylesHash || stylesChanged.valueOf() !== cachedStylesChanged.valueOf()) {
     const classes = extractClasses({ cwd, styles, stylesPath, config: options.config });
     cachedStylesHash = stylesHash;
+    cachedStylesChanged = stylesChanged;
     cachedClassesValue = new Set(classes);
   }
 
