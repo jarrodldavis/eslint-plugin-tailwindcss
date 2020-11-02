@@ -20,7 +20,10 @@
   },
   "rules": {
     "no-process-exit": "off",
-    "node/no-missing-import": ["error", { "tryExtensions": [".js", ".ts"], "allowModules": ["estree", "estree-jsx"] }],
+    "node/no-missing-import": [
+      "error",
+      { "tryExtensions": [".js", ".ts"], "allowModules": ["estree", "estree-jsx", "json-schema"] }
+    ],
     "node/shebang": ["error", { "convertPath": { "lib/**/*.ts": ["^lib/(.+?)\\.ts$", "dist/lib/$1.js"] } }]
   }
 }

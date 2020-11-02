@@ -1,7 +1,9 @@
+import type { JSONSchema4 } from "json-schema";
 import type { Root, Transformer } from "postcss";
 
 import path from "path";
 
+import Ajv from "ajv";
 import postcss from "postcss";
 import postcssrc from "postcss-load-config";
 import createSelectorParser from "postcss-selector-parser";
@@ -13,6 +15,38 @@ export interface ExtractArgs {
   stylesPath: string | null;
   config: { postcss: true } | { tailwind: string | null };
 }
+
+const EXTRACT_ARGS_SCHEMA: JSONSchema4 = {
+  type: "object",
+  properties: {
+    cwd: { type: "string" },
+    styles: { type: "string" },
+    stylesPath: { type: ["string", "null"] },
+    config: {
+      type: "object",
+      oneOf: [
+        {
+          properties: {
+            postcss: { type: "boolean", enum: [true] },
+          },
+          additionalProperties: false,
+          required: ["postcss"],
+        },
+        {
+          properties: {
+            tailwind: { type: ["string", "null"] },
+          },
+          additionalProperties: false,
+          required: ["tailwind"],
+        },
+      ],
+    },
+  },
+  additionalProperties: false,
+  required: ["cwd", "styles", "stylesPath", "config"],
+};
+
+const ajv = new Ajv();
 
 export default async function extractClasses(args: ExtractArgs): Promise<Iterable<string>> {
   const { cwd, styles, stylesPath, config } = args;
@@ -60,8 +94,8 @@ async function getArgs(): Promise<ExtractArgs> {
     throw new Error("Expected object");
   }
 
-  if (!("styles" in parsedArgs) || !("stylesPath" in parsedArgs)) {
-    throw new Error("Missing styles or stylesPath");
+  if (!ajv.validate(EXTRACT_ARGS_SCHEMA, parsedArgs)) {
+    throw new Error(ajv.errorsText());
   }
 
   return parsedArgs as ExtractArgs;
