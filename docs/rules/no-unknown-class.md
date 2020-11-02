@@ -21,7 +21,7 @@ function ComponentTwo() {
 ## Rule Details
 
 This rule enforces usage of known and enabled Tailwind CSS classes in `className` JSX attributes and configured
-"class name builder" functions (by default, `clsx`, `classnames`, and `clsx`). Additionally, it limits usage of dynamic
+"class name builder" functions (by default, `clsx`, `classcat`, `classnames`, and `classNames`). Additionally, it limits usage of dynamic
 values to ensure all class name values are checked.
 
 Using the default Tailwind stylesheet, Tailwind configuration file, and rule options:
@@ -244,6 +244,21 @@ This rule takes an optional options object with four properties: `config`, `styl
 
 ### `config`
 
+An object value that defaults to `{ "tailwind": null }`. The object can have one (and only one) of two properties:
+`postcss` or `tailwind`.
+
+#### `config.postcss`
+
+A boolean value that must be `true`. If `true`, a PostCSS configuration file will be found using the behavior of
+`postcss-cli` and other PostCSS tools. Typically, this means the `postcss.config.js` file closest to (but not below)
+the current working directory will be used, but see the [`postcss-load-config`] and [`cosmiconfig`] packages for
+further details.
+
+[`postcss-load-config`]: https://github.com/postcss/postcss-load-config
+[`cosmiconfig`]: https://github.com/davidtheclark/cosmiconfig
+
+#### `config.tailwind`
+
 A string value that defaults to `null`. If non-`null`, this rule will use this as the path to your Tailwind
 configuration file, relative to the current working directory. If `null`, the default Tailwind configuration loading
 behavior will be used (load `tailwind.config.js` if available, otherwise fallback to Tailwind's built-in default
@@ -251,10 +266,10 @@ configuration).
 
 ---
 
-Examples of **correct** code for the default `{ "config": null }` option:
+Examples of **correct** code for the default `{ "config": { "tailwind": null } }` option:
 
 ```jsx
-/* eslint @jarrodldavis/tailwindcss/no-unknown-class: ["error", { "config": null }] */
+/* eslint @jarrodldavis/tailwindcss/no-unknown-class: ["error", { "config": { "tailwind": null } }] */
 /* eslint @jarrodldavis/tailwindcss/no-unknown-class: ["error"] */ // these are equivalent
 
 function Component() {
@@ -262,10 +277,10 @@ function Component() {
 }
 ```
 
-Examples of **incorrect** code for the `{ "config": null }` option:
+Examples of **incorrect** code for the `{ "config": { "tailwind": null } }` option:
 
 ```jsx
-/* eslint @jarrodldavis/tailwindcss/no-unknown-class: ["error", { "config": null }] */
+/* eslint @jarrodldavis/tailwindcss/no-unknown-class: ["error", { "config": { "tailwind": null } }] */
 /* eslint @jarrodldavis/tailwindcss/no-unknown-class: ["error"] */ // these are equivalent
 
 function Component() {
@@ -294,20 +309,20 @@ module.exports = {
 };
 ```
 
-Examples of **correct** code for the `{ "config": "tw.config.js" }` option:
+Examples of **correct** code for the `{ "config": { "tailwind": "tw.config.js" } }` option:
 
 ```jsx
-/* eslint @jarrodldavis/tailwindcss/no-unknown-class: ["error", { "config": "tw.config.js" }] */
+/* eslint @jarrodldavis/tailwindcss/no-unknown-class: ["error", { "config": { "tailwind": "tw.config.js" } }] */
 
 function Component() {
   return <div className="bg-green-100 mobile:bg-green-900"></div>;
 }
 ```
 
-Examples of **incorrect** code for the `{ "config": "tw.config.js" }` option:
+Examples of **incorrect** code for the `{ "config": { "tailwind": "tw.config.js" } }` option:
 
 ```jsx
-/* eslint @jarrodldavis/tailwindcss/no-unknown-class: ["error", { "config": "tw.config.js" }] */
+/* eslint @jarrodldavis/tailwindcss/no-unknown-class: ["error", { "config": { "tailwind": "tw.config.js" } }] */
 
 function Component() {
   return <div className="sm:bg-green-100 lg:bg-green-900"></div>;
