@@ -6,7 +6,7 @@ import { createHash } from "crypto";
 import fs from "fs";
 import path from "path";
 
-function readStyles(stylesPath: string | null): [string, string | null] {
+function readStyles(cwd: string, stylesPath: string | null): [string, string | null] {
   // language=PostCSS
   const DEFAULT_INPUT_STYLE_SHEET = `
     @tailwind base;
@@ -15,7 +15,8 @@ function readStyles(stylesPath: string | null): [string, string | null] {
   `;
 
   if (stylesPath) {
-    return [fs.readFileSync(stylesPath, "utf-8"), path.resolve(stylesPath)];
+    const fullStylesPath = path.resolve(cwd, stylesPath);
+    return [fs.readFileSync(fullStylesPath, "utf-8"), fullStylesPath];
   } else {
     return [DEFAULT_INPUT_STYLE_SHEET, null];
   }
@@ -38,13 +39,13 @@ function extractClasses(args: ExtractArgs): string[] {
 let cachedStylesHash = "";
 let cachedClassesValue = new Set<string>();
 
-export default function getClasses(options: Options): Set<string> {
-  const [styles, stylesPath] = readStyles(options.stylesheet);
+export default function getClasses(options: Options, cwd: string): Set<string> {
+  const [styles, stylesPath] = readStyles(cwd, options.stylesheet);
 
   const stylesHash = createHash("sha1").update(styles).digest("hex");
 
   if (stylesHash !== cachedStylesHash) {
-    const classes = extractClasses({ styles, stylesPath, configPath: options.config });
+    const classes = extractClasses({ cwd, styles, stylesPath, config: options.config });
     cachedStylesHash = stylesHash;
     cachedClassesValue = new Set(classes);
   }

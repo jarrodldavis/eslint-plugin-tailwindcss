@@ -24,7 +24,7 @@ export const meta: Metadata = {
 
 export const create: Create = function create(context) {
   const options = getOptions(context.options);
-  const classes = getClasses(options);
+  const classes = getClasses(options, context.getCwd());
 
   const reporter = new ReportDescriptorBuilder(context);
 

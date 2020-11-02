@@ -1,17 +1,21 @@
 import type { Root, Transformer } from "postcss";
 
+import path from "path";
+
 import postcss from "postcss";
+import postcssrc from "postcss-load-config";
 import createSelectorParser from "postcss-selector-parser";
 import tailwindcss from "tailwindcss";
 
 export interface ExtractArgs {
+  cwd: string;
   styles: string;
   stylesPath: string | null;
-  configPath: string | null;
+  config: { postcss: true } | { tailwind: string | null };
 }
 
 export default async function extractClasses(args: ExtractArgs): Promise<Iterable<string>> {
-  const { styles, stylesPath, configPath } = args;
+  const { cwd, styles, stylesPath, config } = args;
 
   const classes = new Set<string>();
 
@@ -27,9 +31,15 @@ export default async function extractClasses(args: ExtractArgs): Promise<Iterabl
     });
   };
 
-  const config = configPath ?? undefined;
-  const from = stylesPath ?? undefined;
-  await postcss(tailwindcss(config), transformer).process(styles, { from });
+  const from = stylesPath ? path.resolve(cwd, stylesPath) : undefined;
+
+  if ("tailwind" in config) {
+    const configPath = config.tailwind ? path.resolve(cwd, config.tailwind) : undefined;
+    await postcss(tailwindcss(configPath), transformer).process(styles, { from });
+  } else {
+    const { options, plugins } = await postcssrc({ cwd, from }, cwd);
+    await postcss([...plugins, transformer]).process(styles, { from, ...options });
+  }
 
   return classes;
 }

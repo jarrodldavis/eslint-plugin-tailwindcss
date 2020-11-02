@@ -3,14 +3,14 @@ import type { Rule } from "eslint";
 type Schema = Rule.RuleMetaData["schema"];
 
 export interface Options {
-  config: string | null;
+  config: { postcss: true } | { tailwind: string | null };
   stylesheet: string | null;
   classNameAttributes: string[];
   classNameBuilders: string[];
 }
 
 const DEFAULT_OPTIONS: Options = {
-  config: null,
+  config: { tailwind: null },
   stylesheet: null,
   classNameAttributes: ["className", "class"],
   classNameBuilders: ["clsx", "classcat", "classnames", "classNames"],
@@ -23,9 +23,33 @@ export const schema: Schema = [
     type: "object",
     definitions: {
       config: {
-        title: "Tailwind Configuration",
-        description: "The path to the Tailwind configuration file, relative to the current working directory.",
-        type: "string",
+        title: "Configuration",
+        description: "PostCSS or Tailwind configuration.",
+        type: "object",
+        oneOf: [
+          {
+            properties: {
+              postcss: {
+                title: "PostCSS Configuration",
+                description: "Use additional PostCSS plugins declared in postcss.config.js (or similar configuration).",
+                type: "boolean",
+                enum: [true],
+              },
+            },
+            additionalProperties: false,
+            required: ["postcss"],
+          },
+          {
+            properties: {
+              tailwind: {
+                title: "Tailwind Configuration",
+                description: "The path to the Tailwind configuration file, relative to the current working directory.",
+                type: "string",
+              },
+            },
+            additionalProperties: false,
+          },
+        ],
         default: DEFAULT_OPTIONS.config,
       },
       stylesheet: {
