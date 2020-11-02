@@ -30,6 +30,6 @@ function postcssConfigTestCase(): RuleTester.ValidTestCase {
   };
 }
 
-const cases = loadTestCases("no-unknown-class");
+const cases = loadTestCases("no-unknown-class/default");
 cases.valid.push(postcssConfigTestCase());
 tester.run("no-unknown-class", rule, cases);
