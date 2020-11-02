@@ -14,7 +14,7 @@ interface TestCases {
 type AdditionalTestCaseOptions = Omit<RuleTester.ValidTestCase, "filename" | "code" | "cwd">;
 
 export default function loadTestCases(rule: string, additional?: AdditionalTestCaseOptions): TestCases {
-  const fixtureRoot = path.join(__dirname, "fixtures", rule);
+  const fixtureRoot = path.join(process.cwd(), "tests/fixtures", rule);
 
   function* getFixtures(type: "valid" | "invalid", dir = ""): Generator<string> {
     const fulldir = path.join(fixtureRoot, type, dir);
