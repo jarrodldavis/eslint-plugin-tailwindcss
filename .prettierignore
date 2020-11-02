@@ -1,6 +1,7 @@
 dist
 node_modules
 .eslintignore
+.gitattributes
 .gitignore
 .prettierignore
 package.json
