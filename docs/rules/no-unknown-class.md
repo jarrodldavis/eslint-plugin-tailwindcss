@@ -21,7 +21,7 @@ function ComponentTwo() {
 ## Rule Details
 
 This rule enforces usage of known and enabled Tailwind CSS classes in `className` JSX attributes and configured
-"class name builder" functions (by default, `clsx`, `classnames`, and `clsx`). Additionally, it limits usage of dynamic
+"class name builder" functions (by default, `clsx`, `classcat`, `classnames`, and `classNames`). Additionally, it limits usage of dynamic
 values to ensure all class name values are checked.
 
 Using the default Tailwind stylesheet, Tailwind configuration file, and rule options:
@@ -249,7 +249,7 @@ An object value that defaults to `{ "tailwind": null }`. The object can have one
 
 #### `config.postcss`
 
-A boolean value that must be `true`. If `true`, a PostCSS configuration file will be found using the behavior used by
+A boolean value that must be `true`. If `true`, a PostCSS configuration file will be found using the behavior of
 `postcss-cli` and other PostCSS tools. Typically, this means the `postcss.config.js` file closest to (but not below)
 the current working directory will be used, but see the [`postcss-load-config`] and [`cosmiconfig`] packages for
 further details.
