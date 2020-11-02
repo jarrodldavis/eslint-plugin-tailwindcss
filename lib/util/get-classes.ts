@@ -26,6 +26,7 @@ function extractClasses(args: ExtractArgs): string[] {
   const rawClasses = execFileSync(process.argv[0], [path.join(__dirname, "./extract-classes-bin.js")], {
     encoding: "utf-8",
     input: JSON.stringify(args),
+    stdio: "pipe",
   });
 
   const parsedClasses = JSON.parse(rawClasses) as unknown;
