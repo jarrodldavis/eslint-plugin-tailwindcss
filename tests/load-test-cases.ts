@@ -8,7 +8,9 @@ interface TestCases {
   invalid: RuleTester.InvalidTestCase[];
 }
 
-export default function loadTestCases(rule: string): TestCases {
+type AdditionalTestCaseOptions = Omit<RuleTester.ValidTestCase, "filename" | "code" | "cwd">;
+
+export default function loadTestCases(rule: string, additional?: AdditionalTestCaseOptions): TestCases {
   const fixtureRoot = path.join(__dirname, "fixtures", rule);
 
   function* getFixtures(type: "valid" | "invalid", dir = ""): Generator<string> {
@@ -37,14 +39,18 @@ export default function loadTestCases(rule: string): TestCases {
   }
 
   const valid = Array.from(getFixtures("valid")).map((name) => ({
+    ...additional,
     filename: name,
     code: read("valid", name, ".jsx"),
+    cwd: fixtureRoot,
   }));
 
   const invalid = Array.from(getFixtures("invalid")).map((name) => ({
+    ...additional,
     filename: name,
     code: read("invalid", name, ".jsx"),
     errors: JSON.parse(read("invalid", name, ".json")) as RuleTester.TestCaseError[],
+    cwd: fixtureRoot,
   }));
 
   return { valid, invalid };
