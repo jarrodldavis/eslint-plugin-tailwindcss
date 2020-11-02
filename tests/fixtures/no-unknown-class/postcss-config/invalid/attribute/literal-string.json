@@ -1,0 +1,10 @@
+[
+  {
+    "messageId": "unknownInLiteral",
+    "data": { "name": "not-a-component" },
+    "line": 2,
+    "column": 26,
+    "endLine": 2,
+    "endColumn": 41
+  }
+]

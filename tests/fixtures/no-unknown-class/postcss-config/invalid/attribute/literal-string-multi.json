@@ -1,0 +1,18 @@
+[
+  {
+    "messageId": "unknownInLiteral",
+    "data": { "name": "not-a-component" },
+    "line": 2,
+    "column": 26,
+    "endLine": 2,
+    "endColumn": 41
+  },
+  {
+    "messageId": "unknownInLiteral",
+    "data": { "name": "class-b" },
+    "line": 2,
+    "column": 42,
+    "endLine": 2,
+    "endColumn": 49
+  }
+]
