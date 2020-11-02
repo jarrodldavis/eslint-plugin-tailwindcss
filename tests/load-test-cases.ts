@@ -58,7 +58,7 @@ export default function loadTestCases(rule: string, additional?: AdditionalTestC
 
   describe(rule, function () {
     it("loads classes without error", function () {
-      this.slow(5000).timeout(5000);
+      this.slow(5000).timeout(10_000);
       getClasses(getOptions(additional?.options ?? []), fixtureRoot);
     });
   });
