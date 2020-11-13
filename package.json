@@ -69,6 +69,8 @@
     "postcss-selector-parser": "^6.0.4"
   },
   "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.1.4",
+    "@tailwindcss/ui": "^0.7.2",
     "@types/eslint": "^7.2.4",
     "@types/esquery": "^1.0.1",
     "@types/estree-jsx": "0.0.0",
