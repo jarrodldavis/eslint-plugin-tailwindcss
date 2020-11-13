@@ -13,6 +13,12 @@ interface TestCases {
 
 type AdditionalTestCaseOptions = Omit<RuleTester.ValidTestCase, "filename" | "code" | "cwd">;
 
+const ONE_SECOND = 1_000;
+const ONE_MINUTE = 60 * ONE_SECOND;
+
+const LOAD_TEST_SLOW = 5 * ONE_SECOND;
+const LOAD_TEST_TIMEOUT = 2 * ONE_MINUTE;
+
 export default function loadTestCases(rule: string, additional?: AdditionalTestCaseOptions): TestCases {
   const fixtureRoot = path.join(process.cwd(), "tests/fixtures", rule);
 
@@ -58,7 +64,7 @@ export default function loadTestCases(rule: string, additional?: AdditionalTestC
 
   describe(rule, function () {
     it("loads classes without error", function () {
-      this.slow(5000).timeout(10_000);
+      this.slow(LOAD_TEST_SLOW).timeout(LOAD_TEST_TIMEOUT);
       getClasses(getOptions(additional?.options ?? []), fixtureRoot);
     });
   });
