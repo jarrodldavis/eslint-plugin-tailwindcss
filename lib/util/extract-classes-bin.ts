@@ -1,5 +1,5 @@
 import type { JSONSchema4 } from "json-schema";
-import type { Root, Transformer } from "postcss";
+import type { Root, TransformCallback } from "postcss";
 
 import path from "path";
 
@@ -59,7 +59,7 @@ export default async function extractClasses(args: ExtractArgs): Promise<Iterabl
     })
   );
 
-  const transformer: Transformer = (root: Root): void => {
+  const transformer: TransformCallback = (root: Root): void => {
     root.walkRules((rule) => {
       classExtractor.processSync(rule.selector);
     });

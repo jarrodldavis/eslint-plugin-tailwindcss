@@ -59,7 +59,7 @@
   "homepage": "https://github.com/jarrodldavis/eslint-plugin-tailwindcss#readme",
   "peerDependencies": {
     "eslint": "^7.13.0",
-    "postcss": "^7.0.35",
+    "postcss": "^8.1.7",
     "tailwindcss": "^1.9.6"
   },
   "dependencies": {
@@ -74,7 +74,6 @@
     "@types/estree-jsx": "0.0.0",
     "@types/mocha": "^8.0.4",
     "@types/node": "^14.14.7",
-    "@types/postcss-load-config": "^2.0.1",
     "@typescript-eslint/eslint-plugin": "^4.7.0",
     "@typescript-eslint/parser": "^4.7.0",
     "eslint": "^7.13.0",
@@ -84,10 +83,10 @@
     "mocha": "^8.2.1",
     "npm-run-all": "^4.1.5",
     "patch-package": "^6.2.2",
-    "postcss": "^7.0.35",
+    "postcss": "^8.1.7",
     "postcss-extend": "^1.0.5",
-    "postcss-import": "^12.0.1",
-    "postcss-nested": "^4.2.3",
+    "postcss-import": "^13.0.0",
+    "postcss-nested": "^5.0.1",
     "prettier": "^2.1.2",
     "rimraf": "^3.0.2",
     "tailwindcss": "^1.9.6",
