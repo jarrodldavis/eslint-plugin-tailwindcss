@@ -14,6 +14,11 @@ const DEFAULT_INPUT_STYLE_SHEET = `
 
 const DEFAULT_INPUT_CHANGED = new Date();
 
+// The kitchen sink test (all variants for all utilities, plus official plugins)
+// results in an `extract-classes-bin` stdout buffer of about 24 megabytes
+const ONE_MEGABYTE = 1024 * 1024;
+const EXTRACT_CLASSES_BUFFER_SIZE = 25 * ONE_MEGABYTE;
+
 function readStyles(cwd: string, stylesPath: string | null): [string, string | null, Date] {
   if (stylesPath) {
     const fullStylesPath = path.resolve(cwd, stylesPath);
@@ -29,6 +34,7 @@ function extractClasses(args: ExtractArgs): string[] {
     encoding: "utf-8",
     input: JSON.stringify(args),
     stdio: "pipe",
+    maxBuffer: EXTRACT_CLASSES_BUFFER_SIZE,
   });
 
   const parsedClasses = JSON.parse(rawClasses) as unknown;
