@@ -39,6 +39,7 @@ function extractClasses(args: ExtractArgs): string[] {
   }
 }
 
+let cachedOptionsHash = "";
 let cachedStylesHash = "";
 let cachedStylesChanged: Date = new Date();
 let cachedClassesValue = new Set<string>();
@@ -46,10 +47,16 @@ let cachedClassesValue = new Set<string>();
 export default function getClasses(options: Options, cwd: string): Set<string> {
   const [styles, stylesPath, stylesChanged] = readStyles(cwd, options.stylesheet);
 
+  const optionsHash = createHash("sha1").update(JSON.stringify(options)).digest("hex");
   const stylesHash = createHash("sha1").update(styles).digest("hex");
 
-  if (stylesHash !== cachedStylesHash || stylesChanged.valueOf() !== cachedStylesChanged.valueOf()) {
+  if (
+    optionsHash !== cachedOptionsHash ||
+    stylesHash !== cachedStylesHash ||
+    stylesChanged.valueOf() !== cachedStylesChanged.valueOf()
+  ) {
     const classes = extractClasses({ cwd, styles, stylesPath, config: options.config });
+    cachedOptionsHash = optionsHash;
     cachedStylesHash = stylesHash;
     cachedStylesChanged = stylesChanged;
     cachedClassesValue = new Set(classes);
