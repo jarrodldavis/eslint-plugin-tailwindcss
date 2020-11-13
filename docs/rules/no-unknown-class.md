@@ -337,8 +337,8 @@ which is equivalent to specifying this stylesheet:
 
 ```css
 @tailwind base;
-@tailwind utilities;
 @tailwind components;
+@tailwind utilities;
 ```
 
 ---
@@ -349,8 +349,8 @@ Using the following stylesheet:
 /* styles.css */
 
 @tailwind base;
-@tailwind utilities;
 @tailwind components;
+@tailwind utilities;
 
 @layer components {
   .some-component {

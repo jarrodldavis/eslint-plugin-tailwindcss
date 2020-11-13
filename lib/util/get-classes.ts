@@ -8,8 +8,8 @@ import path from "path";
 
 const DEFAULT_INPUT_STYLE_SHEET = `
   @tailwind base;
-  @tailwind utilities;
   @tailwind components;
+  @tailwind utilities;
 `;
 
 const DEFAULT_INPUT_CHANGED = new Date();
